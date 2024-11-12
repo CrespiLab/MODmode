@@ -37,12 +37,12 @@ import time
 import tools.constants as Constants
 import tools.settings as Settings
 import tools.functions as Functions # test version
+import tools.IrrKin as IrrKin
 # from tools.functions import write_read # test version
 
 
 ##############
 Constants.MODE = "TEST" ##!!! TURN OFF WHEN NOT TESTING
-# Constants.MODE = "FORREAL" # default in parameters.py
 ##############
 
 ############## define Arduino write-read function ##############
@@ -108,7 +108,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         # super().__init__()
         super(MainWindow, self).__init__()
-        uic.loadUi('MainWindow.ui', self)  # Load the UI file you provided
+        uic.loadUi('UIs/MainWindow.ui', self)  # Load the UI file you provided
 
         #### Initialize instance variables ####
         self.selected_option = None
@@ -158,12 +158,13 @@ class MainWindow(QMainWindow):
 
         #### Initial calculation ####
         self.update_dropdown()
+        self.turnLED_OFF() # extra caution
         
     def initialise_Arduino(self, MODE):
+        """ Start COM port communication with Arduino (unless TEST MODE is on) """
         if MODE == "TEST":
             ### TEST ###
-            # from tools.functions import write_read_test as write_read # test version
-            # write_read = Functions.write_read_test
+
             pass
         elif MODE == "FORREAL":
             # from tools.functions import write_read as write_read
@@ -238,6 +239,7 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, "Error", "Wrong input percentage")
                 return
         
+            print("======= MainWindow =======")
             print(f"turnLED_ON twelvebit_adjusted: {Settings.twelvebit_adjusted}")
             Functions.write_read(Settings.arduino, Settings.twelvebit_adjusted, Constants.MODE) ## send ON signal to Arduino (percentage-adjusted)
             print("Turned ON the LED") 
@@ -247,7 +249,8 @@ class MainWindow(QMainWindow):
             print("Turned OFF the LED")
             self.textEdit_LEDstatus.setText("OFF")
 
-    def turnLED_OFF(self, i):
+    def turnLED_OFF(self):
+        print("======= MainWindow =======")
         Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
         print("Turned OFF the LED")
         self.textEdit_LEDstatus.setText("OFF")
@@ -255,15 +258,12 @@ class MainWindow(QMainWindow):
 ################
 
     def SaveContinue(self):
-        ##!!! NOT WORKING: ASK CO-PILOT
         """ Save, Close and Continue with IrrKin mode controlled by .ahk script """
         QMessageBox.warning(self, "Just so you know", "Saving values, closing GUI, and continuing with IrrKin")
         
-        self.window = QMainWindow()
-        uic.loadUi('IrrKin.ui', self.window)  # Load the UI file you provided
+        self.window = IrrKin.IrrKin() # load Class that includes loadUi
         self.window.show()
 
-        
         # self.close_signal.emit()
         # self.close()
 

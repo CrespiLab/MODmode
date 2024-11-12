@@ -22,7 +22,7 @@ import time
 # time.sleep(2) ## need to wait a bit after opening the communication
 def write_read(arduino, x, MODE):
     if MODE == "TEST":
-        print(f'twelvebit_adjusted: {x}')
+        print(f'==== TEST MODE ====\ntwelvebit_adjusted: {x}')
     
     elif MODE == "FORREAL":
 

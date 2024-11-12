@@ -3,30 +3,31 @@
 
 IMPORTANT:
 > Make sure that the Arduino code is uploaded to the Arduino:
-"DAC_0to5V_v2.ino" (in the folder of the same name)
+"ArduinoCode_DAC-0to5V.ino" (in the folder of the same name)
 > Make sure that Windows Powershell is running
-> Make sure that the python script "Autoclick_IrrKin_GUI_MODmode_v#.py" is in the same folder as your current working folder in Powershell
-	== for example: set Powershell directory to that containing this Autoclick script
+> Make sure that the python script "main.py" is in the same folder as your current working folder in Powershell
 */
 
 SetTitleMatchMode 2 ; for ControlSend command
 
 ; Change directory to that of this .ahk script which also contains the necessary .py script
-ControlSend("cd C:\Users\SyrrisAsia\Documents\AutoHotkey\Arduino-AvaSoft_GUI\Autoclick_IrrKin_MODmode{Enter}",, "Windows PowerShell")
+ScriptDir := A_ScriptDir
+ControlSend("cd ScriptDir{Enter}",, "Windows PowerShell")
 
 Delay_1 := 1000 ; variable (ms) for delay between measurement and LED on
 Delay_2 := 1000 ; variable (ms) for delay between LED off and measurement
 Delay_12 := Delay_1 + Delay_2
 
-; Here start python script: python .\MODmode_ArduinoCommunication_GUI_v5.py
-ControlSend("python MODmode_ArduinoCommunication_GUI_v5.py{Enter}",, "Windows PowerShell")
+; Here start python script: python .\main.py
+ControlSend("python main.py{Enter}",, "Windows PowerShell")
 
 ; MsgBox Please enter a name and location for the log file.
 FileName := FileSelect("S24", , "Create a new log file", "CSV Document (*.csv)")
 if FileName = ""
 {
     MsgBox("The dialog was canceled.")
-    ControlSend("stop{Enter}",, "Windows PowerShell")
+    ;ControlSend("stop{Enter}",, "Windows PowerShell")
+    ControlClick "x284 y274", "IrrKin" ; IrrKin window: STOP button
     ExitApp
 }
 else
@@ -64,7 +65,9 @@ ProcessUserInput(*)
 UserClose(*) ; close app without saving
 {
 FileObj.Close()
-ControlSend("stop{Enter}",, "Windows PowerShell")
+;ControlSend("stop{Enter}",, "Windows PowerShell")
+ControlClick "x284 y274", "IrrKin" ; IrrKin window: STOP button
+
 MsgBox("Closed the programme and turned off LED (please check).")
 ExitApp
 }
@@ -73,7 +76,10 @@ ExitApp
 {
 FileObj.Close()
 Sleep (Delay_1) ; need some delay to make sure that no keys are pressed when the programme is writing "stop"
-ControlSend("stop{Enter}",, "Windows PowerShell")
+
+;ControlSend("stop{Enter}",, "Windows PowerShell")
+ControlClick "x284 y274", "IrrKin" ; IrrKin window: STOP button
+
 MsgBox("Stopped the programme and turned off LED (please check).")
 ExitApp
 }
@@ -83,7 +89,9 @@ ExitApp
 
 StartTime := A_TickCount
 
-ControlClick "x47 y108", "AvaSoft 8" ; correct name and coords
+;ControlClick "x47 y108", "AvaSoft 8" ; correct name and coords
+ControlClick "x56 y102", "TestWindow.txt - C:\Users\Admin\Documents\GitHub\MODmode\Test - Geany (nieuw venster)" ; TEST
+
 ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
 
@@ -92,7 +100,8 @@ Sleep (Delay_1) ; need some delay between measurement and LED on
 Loop (Numberofcycles) ; 
 {
 	;Here write in PowerShell: on
-	ControlSend("on{Enter}",, "Windows PowerShell")
+	;ControlSend("on{Enter}",, "Windows PowerShell")
+	ControlClick "x106 y157", "IrrKin" ; IrrKin window: LED ON button
 	
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDon"  "`r`n")
@@ -100,14 +109,16 @@ Loop (Numberofcycles) ;
 	Sleep (Interval_ms-Delay_12) ; time that LED is ON: dependent on the user-input interval
 	
 	;Here write in PowerShell: off
-	ControlSend("off{Enter}",, "Windows PowerShell")
+	;ControlSend("off{Enter}",, "Windows PowerShell")
+	ControlClick "x289 y157", "IrrKin" ; IrrKin window: LED OFF button
 
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDoff"  "`r`n")
 		
 	Sleep (Delay_2) ; need some delay between LED off and measurement
 	
-	ControlClick "x47 y108", "AvaSoft 8" ; correct name and coords
+	;ControlClick "x47 y108", "AvaSoft 8" ; AvaSoft button
+	ControlClick "x56 y102", "TestWindow.txt - C:\Users\Admin\Documents\GitHub\MODmode\Test - Geany (nieuw venster)" ; TEST
 
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
@@ -117,7 +128,8 @@ Loop (Numberofcycles) ;
 FileObj.Close()
 
 ;Here write in PowerShell: stop
-ControlSend("stop{Enter}",, "Windows PowerShell")
+;ControlSend("stop{Enter}",, "Windows PowerShell")
+ControlClick "x284 y274", "IrrKin" ; IrrKin window: STOP button
 
 MsgBox("Done!")
 ExitApp

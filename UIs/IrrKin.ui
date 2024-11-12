@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>337</width>
-    <height>330</height>
+    <width>376</width>
+    <height>391</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>IrrKin</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -102,6 +102,10 @@
         </item>
        </layout>
       </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <widget class="QPushButton" name="pushButton_Cancel">
         <property name="maximumSize">
@@ -115,6 +119,19 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_Stop">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Stop (the whole programme) TO DO</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
@@ -124,8 +141,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>337</width>
-     <height>22</height>
+     <width>376</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>

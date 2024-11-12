@@ -22,14 +22,14 @@ class IrrKin(QMainWindow):
     """Dialog class for IrrKin mode."""
     def __init__(self):
         # self.parent_window = parent
-        super(IrrKin, self).__init__
-        uic.loadUi('IrrKin.ui', self)  # Load the UI file you provided
-        
+        super(IrrKin, self).__init__()
+        uic.loadUi('UIs/IrrKin.ui', self)  # Load the UI file you provided
+              
         self.pushButton_LED_ON.clicked.connect(self.turnLED_ON)
         self.pushButton_LED_OFF.clicked.connect(self.turnLED_OFF)
+        self.pushButton_LED_Stop.clicked.connect(self.turnLED_OFF)
 
         self.turnLED_OFF() # start with LED OFF
-
         
     def turnLED_ON(self):
         print(f"turnLED_ON twelvebit_adjusted: {Settings.twelvebit_adjusted}")
@@ -39,8 +39,13 @@ class IrrKin(QMainWindow):
 
 
     def turnLED_OFF(self):
+        print("======= IrrKin =======")
         Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
         print("Turned OFF the LED")
         self.textEdit_LEDstatus.setText("OFF")
 
+    def StopProgramme(self):
+        self.turnLED_OFF()
+        print("Exited Programme (TO DO)")
+        ##!!! EXIT FULL PROGRAMME
 
