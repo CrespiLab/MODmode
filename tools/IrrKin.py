@@ -27,7 +27,7 @@ class IrrKin(QMainWindow):
               
         self.pushButton_LED_ON.clicked.connect(self.turnLED_ON)
         self.pushButton_LED_OFF.clicked.connect(self.turnLED_OFF)
-        self.pushButton_LED_Stop.clicked.connect(self.turnLED_OFF)
+        self.pushButton_Stop.clicked.connect(self.turnLED_OFF)
 
         self.turnLED_OFF() # start with LED OFF
         

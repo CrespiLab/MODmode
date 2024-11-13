@@ -54,36 +54,6 @@ twelvebit_zero = Constants.twelvebit_zero
 twelvebit_max_default = Constants.twelvebit_max_default
 MaxCurrent_default = Constants.MaxCurrent_default
 
-# if MODE == "TEST":
-#     ### TEST ###
-#     from tools.functions import write_read_test as write_read # test version
-    
-#     # def write_read(x):
-#     #     print(f'twelvebit_adjusted: {x}')
-# elif MODE == "FORREAL":
-
-#     from tools.functions import write_read as write_read
-
-#     ############# code to communicate with COM port #############
-#     ### make sure the COM port is the correct one that is connected to the Arduino
-
-#     # arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1) ## fibirr laptop
-#     # # arduino = serial.Serial(port='COM5', baudrate=115200, timeout=.1) ## my laptop
-
-#     # time.sleep(2) ## need to wait a bit after opening the communication
-#     # def write_read(x):
-#     #     arduino.write(bytes(x, 'utf-8'))
-#     #     time.sleep(0.05)
-#     #     data = arduino.readline()
-#     #  	# print(f"data:{data}")
-#     #     return data
-# else:
-#     print("wrong value for MODE")
-
-########################################################
-
-
-
 ########################################################
 
 def AdjustMaxCurrent(LED):
@@ -118,7 +88,6 @@ class MainWindow(QMainWindow):
         Settings.twelvebit_adjusted = None
         self.current = 0
 
-
 ################
 
         #### drop-down menu ####
@@ -147,7 +116,7 @@ class MainWindow(QMainWindow):
         self.pushButton_SaveContinue.clicked.connect(self.SaveContinue)
 
         #### Cancel button ####
-            ##!!! NEED TO FIX??
+            ##!!! NEED TO FIX!!
         self.pushButton_Cancel.clicked.connect(self.cancel_gui)
 
 ################################################
@@ -164,16 +133,11 @@ class MainWindow(QMainWindow):
         """ Start COM port communication with Arduino (unless TEST MODE is on) """
         if MODE == "TEST":
             ### TEST ###
-
             pass
         elif MODE == "FORREAL":
-            # from tools.functions import write_read as write_read
-            # write_read = Functions.write_read
             Settings.arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1) ## fibirr laptop
             # Settings.arduino = serial.Serial(port='COM5', baudrate=115200, timeout=.1) ## my laptop
-
             time.sleep(2) ## need to wait a bit after opening the communication
-            
         else:
             print("wrong value for MODE")
 ################################################
@@ -192,9 +156,7 @@ class MainWindow(QMainWindow):
     def update_calculation(self):
         Settings.twelvebit_adjusted = str(percent_to_12bit(Settings.twelvebit_max_thisLED,int(self.percentage)))
         print(f"update_calculation twelvebit_adjusted: {Settings.twelvebit_adjusted}")
-        
         self.current = round((int(self.percentage) / 100) * self.MaxCurrent)
-
         self.update_label_CurrentCurrent()
 
     def update_label_MaxCurrent(self):
@@ -205,8 +167,6 @@ class MainWindow(QMainWindow):
             self.current = ''
         self.textEdit_CurrentCurrent.setText(str(self.current))
         
-        # self.twelvebitadjusted_label.setText(f'12bit string (adjusted): {self.twelvebit_adjusted}')
-
     def update_percentage(self):
         if self.textEdit_Percentage.toPlainText() == '':
             self.current = ''
