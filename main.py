@@ -73,7 +73,7 @@ def percent_to_12bit(twelvebit_max, percent):
 ########################################################
 
 class MainWindow(QMainWindow):
-    close_signal = pyqtSignal()
+    # close_signal = pyqtSignal()
     
     def __init__(self):
         # super().__init__()
@@ -236,11 +236,21 @@ class MainWindow(QMainWindow):
 
     def cancel_gui(self):
         """ Cancel button """
-        Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
-        print("Turned OFF the LED")
-        app = QApplication(sys.argv)
-        print("Closing application...")
-        app.quit()
+        # Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
+        # print("Turned OFF the LED")
+        print("=== CANCEL BUTTON === Closing application...")
+        
+        ## just need to close the MainWindow         
+        self.close()  # Close the window
+        
+        
+        # app = QApplication(sys.argv)
+        # app.quit()
+        # sys.exit(app.exec_()) # or this way?
+        # sys.exit() # or this way?
+
+
+
 
     # def closeEvent(self, event):
     #     ## upon clicking the X button
@@ -249,29 +259,38 @@ class MainWindow(QMainWindow):
 
 ##!!! add code to close the programme upon clicking X (like Cancel)
 
-    # def closeEvent(self, event):
-    #     ## Cancel button
-    #     app = QApplication(sys.argv)
-    #     print("Closing application...")
-    #     app.quit()
+    def closeEvent(self, event):
+        """ Close event: associated with X button by default"""
+        Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
+        print("Turned OFF the LED")
+        # self.close()  # Close the window
+        print("=== X BUTTON === Closing application...")
 
 ################
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    gui = MainWindow()
     
-    # def on_close():
-    #     # print(f"Final result: {gui.result}")
-    #     # Use gui.result for further processing here
-    #     app.quit()
+    # app = QApplication(sys.argv)
+    
+    ## Check if there's a pre-existing QApplication instance 
+    ## If there is, use it. If there isn't, create a new one.
+    ## https://stackoverflow.com/questions/24041259/python-kernel-crashes-after-closing-an-pyqt4-gui-application
+    app = QApplication.instance()
+    if app is None:
+        app = QApplication(sys.argv)
+    
+    ### Ensure that the app is deleted when we close it
+    app.aboutToQuit.connect(app.deleteLater)
 
-    # gui.close_signal.connect(on_close)
+    ####        
+    gui = MainWindow()
     gui.show()
 
+    ####
+    # app.quit()
     # app.exec_() # this way?
     sys.exit(app.exec_()) # or this way?
-
+    ####
         
     ###################################
 

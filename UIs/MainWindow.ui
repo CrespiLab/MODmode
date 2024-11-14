@@ -6,9 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>673</width>
-    <height>602</height>
+    <width>500</width>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>500</width>
+    <height>600</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MODmode</string>
@@ -31,23 +49,49 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label_3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <property name="spacing">
+         <number>0</number>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>500</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>IMPORTANT: Max Current limit on the LED driver itself should be set to 1.2 V</string>
-        </property>
-       </widget>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="label_9">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>500</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>==== IMPORTANT ====</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="label_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>500</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Max Current on the LED driver itself should be set to 1.2 V</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="horizontalSpacer_14">
@@ -93,7 +137,7 @@
             </property>
             <property name="maximumSize">
              <size>
-              <width>125</width>
+              <width>300</width>
               <height>25</height>
              </size>
             </property>
@@ -103,7 +147,26 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_LEDs"/>
+           <widget class="QComboBox" name="comboBox_LEDs">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
+              <height>25</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -119,7 +182,7 @@
             </property>
             <property name="maximumSize">
              <size>
-              <width>100</width>
+              <width>200</width>
               <height>25</height>
              </size>
             </property>
@@ -132,8 +195,8 @@
            <widget class="QTextEdit" name="textEdit_MaxCurrent">
             <property name="maximumSize">
              <size>
-              <width>50</width>
-              <height>30</height>
+              <width>75</width>
+              <height>40</height>
              </size>
             </property>
             <property name="readOnly">
@@ -196,6 +259,12 @@
       </item>
       <item>
        <widget class="QSlider" name="horizontalSlider">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>30</height>
+         </size>
+        </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -205,8 +274,8 @@
        <widget class="QTextEdit" name="textEdit_Percentage">
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>30</height>
+          <width>75</width>
+          <height>40</height>
          </size>
         </property>
         <property name="readOnly">
@@ -275,7 +344,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
+            <width>250</width>
             <height>25</height>
            </size>
           </property>
@@ -294,7 +363,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
+            <width>250</width>
             <height>25</height>
            </size>
           </property>
@@ -353,7 +422,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
+            <width>250</width>
             <height>25</height>
            </size>
           </property>
@@ -372,7 +441,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
+            <width>250</width>
             <height>25</height>
            </size>
           </property>
@@ -413,7 +482,7 @@
         </property>
        </spacer>
       </item>
-      <item>
+      <item alignment="Qt::AlignRight">
        <widget class="QLabel" name="label_5">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -423,7 +492,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>100</width>
+          <width>150</width>
           <height>25</height>
          </size>
         </property>
@@ -436,8 +505,8 @@
        <widget class="QTextEdit" name="textEdit_CurrentCurrent">
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>30</height>
+          <width>75</width>
+          <height>40</height>
          </size>
         </property>
         <property name="readOnly">
@@ -494,7 +563,7 @@
         </property>
        </spacer>
       </item>
-      <item>
+      <item alignment="Qt::AlignRight">
        <widget class="QLabel" name="label_8">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -504,7 +573,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>65</width>
+          <width>150</width>
           <height>25</height>
          </size>
         </property>
@@ -517,8 +586,8 @@
        <widget class="QTextEdit" name="textEdit_LEDstatus">
         <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>30</height>
+          <width>75</width>
+          <height>40</height>
          </size>
         </property>
         <property name="readOnly">
@@ -562,7 +631,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>673</width>
+     <width>500</width>
      <height>22</height>
     </rect>
    </property>

@@ -46,6 +46,9 @@ class IrrKin(QMainWindow):
 
     def StopProgramme(self):
         self.turnLED_OFF()
-        print("Exited Programme (TO DO)")
-        ##!!! EXIT FULL PROGRAMME
+        ##!!! DOESN'T WORK
+        print("Exit Programme (TO DO)")
+        self.close()
+        print("NEW STUFF")
+        ##!!! EXIT FULL PROGRAMME OR JUST THIS WINDOW?
 

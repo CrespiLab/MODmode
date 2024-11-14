@@ -26,7 +26,7 @@ if FileName = ""
 {
     MsgBox("The dialog was canceled.")
     ;ControlSend("stop{Enter}",, "Windows PowerShell")
-    ControlClick "x284 y274", "IrrKin" ; IrrKin window: STOP button
+    ControlClick "x336 y313", "IrrKin" ; IrrKin window: STOP button
     ExitApp
 }
 else
@@ -65,7 +65,7 @@ UserClose(*) ; close app without saving
 {
 FileObj.Close()
 ;ControlSend("stop{Enter}",, "Windows PowerShell")
-ControlClick "x284 y274", "IrrKin" ; IrrKin window: STOP button
+ControlClick "x336 y313", "IrrKin" ; IrrKin window: STOP button
 
 MsgBox("Closed the programme and turned off LED (please check).")
 ExitApp
@@ -77,7 +77,7 @@ FileObj.Close()
 Sleep (Delay_1) ; need some delay to make sure that no keys are pressed when the programme is writing "stop"
 
 ;ControlSend("stop{Enter}",, "Windows PowerShell")
-ControlClick "x284 y274", "IrrKin" ; IrrKin window: STOP button
+ControlClick "x336 y313", "IrrKin" ; IrrKin window: STOP button
 
 MsgBox("Stopped the programme and turned off LED (please check).")
 ExitApp
@@ -89,7 +89,7 @@ ExitApp
 StartTime := A_TickCount
 
 ;ControlClick "x47 y108", "AvaSoft 8" ; correct name and coords
-ControlClick "x56 y102", "TestWindow.txt - C:\Users\Admin\Documents\GitHub\MODmode\Test - Geany (nieuw venster)" ; TEST
+ControlClick "x56 y102", "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
 
 ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
@@ -100,7 +100,7 @@ Loop (Numberofcycles) ;
 {
 	;Here write in PowerShell: on
 	;ControlSend("on{Enter}",, "Windows PowerShell")
-	ControlClick "x106 y157", "IrrKin" ; IrrKin window: LED ON button
+	ControlClick "x124 y151", "IrrKin" ; IrrKin window: LED ON button
 	
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDon"  "`r`n")
@@ -109,7 +109,7 @@ Loop (Numberofcycles) ;
 	
 	;Here write in PowerShell: off
 	;ControlSend("off{Enter}",, "Windows PowerShell")
-	ControlClick "x289 y157", "IrrKin" ; IrrKin window: LED OFF button
+	ControlClick "x341 y151", "IrrKin" ; IrrKin window: LED OFF button
 
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDoff"  "`r`n")
@@ -117,7 +117,7 @@ Loop (Numberofcycles) ;
 	Sleep (Delay_2) ; need some delay between LED off and measurement
 	
 	;ControlClick "x47 y108", "AvaSoft 8" ; AvaSoft button
-	ControlClick "x56 y102", "TestWindow.txt - C:\Users\Admin\Documents\GitHub\MODmode\Test - Geany (nieuw venster)" ; TEST
+	ControlClick "x56 y102", "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
 
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
@@ -128,7 +128,7 @@ FileObj.Close()
 
 ;Here write in PowerShell: stop
 ;ControlSend("stop{Enter}",, "Windows PowerShell")
-ControlClick "x284 y274", "IrrKin" ; IrrKin window: STOP button
+ControlClick "x336 y313", "IrrKin" ; IrrKin window: STOP button
 
 MsgBox("Done!")
 ExitApp
