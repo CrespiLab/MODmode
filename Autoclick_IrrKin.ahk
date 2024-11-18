@@ -1,5 +1,8 @@
 ﻿/*
 ====== MOD mode =====
+TO DO:
+[] Have this .ahk script start PowerShell
+
 
 IMPORTANT:
 > Make sure that the Arduino code is uploaded to the Arduino:
@@ -9,6 +12,12 @@ IMPORTANT:
 */
 
 SetTitleMatchMode 2 ; for ControlSend command
+CoordMode "Mouse", "Client" ; set CoordMode to active window's client area
+
+IrrKin_Cancel := "x123 y184"
+TestWindow := "x64 y44"
+IrrKin_ON := "x62 y80"
+IrrKin_OFF := "x172 y80"
 
 ; Change directory to that of this .ahk script which also contains the necessary .py script
 ControlSend("cd " A_ScriptDir "{Enter}",, "Windows PowerShell")
@@ -25,8 +34,7 @@ FileName := FileSelect("S24", , "Create a new log file", "CSV Document (*.csv)")
 if FileName = ""
 {
     MsgBox("The dialog was canceled.")
-    ;ControlSend("stop{Enter}",, "Windows PowerShell")
-    ControlClick "x336 y313", "IrrKin" ; IrrKin window: STOP button
+    ControlClick IrrKin_Cancel, "IrrKin" ; IrrKin window: Cancel button
     ExitApp
 }
 else
@@ -64,9 +72,7 @@ ProcessUserInput(*)
 UserClose(*) ; close app without saving
 {
 FileObj.Close()
-;ControlSend("stop{Enter}",, "Windows PowerShell")
-ControlClick "x336 y313", "IrrKin" ; IrrKin window: STOP button
-
+ControlClick IrrKin_Cancel, "IrrKin" ; IrrKin window: Cancel button
 MsgBox("Closed the programme and turned off LED (please check).")
 ExitApp
 }
@@ -75,10 +81,7 @@ ExitApp
 {
 FileObj.Close()
 Sleep (Delay_1) ; need some delay to make sure that no keys are pressed when the programme is writing "stop"
-
-;ControlSend("stop{Enter}",, "Windows PowerShell")
-ControlClick "x336 y313", "IrrKin" ; IrrKin window: STOP button
-
+ControlClick IrrKin_Cancel, "IrrKin" ; IrrKin window: Cancel button
 MsgBox("Stopped the programme and turned off LED (please check).")
 ExitApp
 }
@@ -88,28 +91,22 @@ ExitApp
 
 StartTime := A_TickCount
 
-;ControlClick "x47 y108", "AvaSoft 8" ; correct name and coords
-ControlClick "x56 y102", "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
+ControlClick TestWindow, "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
 
 ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
-
 Sleep (Delay_1) ; need some delay between measurement and LED on
 
 Loop (Numberofcycles) ; 
 {
-	;Here write in PowerShell: on
-	;ControlSend("on{Enter}",, "Windows PowerShell")
-	ControlClick "x124 y151", "IrrKin" ; IrrKin window: LED ON button
-	
+	ControlClick IrrKin_ON, "IrrKin" ; IrrKin window: LED ON button
+		
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDon"  "`r`n")
 	
 	Sleep (Interval_ms-Delay_12) ; time that LED is ON: dependent on the user-input interval
 	
-	;Here write in PowerShell: off
-	;ControlSend("off{Enter}",, "Windows PowerShell")
-	ControlClick "x341 y151", "IrrKin" ; IrrKin window: LED OFF button
+	ControlClick IrrKin_OFF, "IrrKin" ; IrrKin window: LED OFF button
 
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDoff"  "`r`n")
@@ -117,7 +114,7 @@ Loop (Numberofcycles) ;
 	Sleep (Delay_2) ; need some delay between LED off and measurement
 	
 	;ControlClick "x47 y108", "AvaSoft 8" ; AvaSoft button
-	ControlClick "x56 y102", "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
+	ControlClick TestWindow, "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
 
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
@@ -126,9 +123,7 @@ Loop (Numberofcycles) ;
 }
 FileObj.Close()
 
-;Here write in PowerShell: stop
-;ControlSend("stop{Enter}",, "Windows PowerShell")
-ControlClick "x336 y313", "IrrKin" ; IrrKin window: STOP button
+ControlClick IrrKin_Cancel, "IrrKin" ; IrrKin window: Cancel button
 
 MsgBox("Done!")
 ExitApp

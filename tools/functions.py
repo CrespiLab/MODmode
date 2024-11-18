@@ -6,20 +6,10 @@ Created on Mon Nov 11 15:34:15 2024
 Functions for MODmode programme
 """
 import time
+import tools.constants as Constants
+import tools.settings as Settings
+# import tools.IrrKin as IrrKin
 
-# if MODE == "TEST":
-#     ### TEST ###
-# def write_read_test(x):
-#     print(f'twelvebit_adjusted: {x}')
-
-# elif MODE == "FORREAL":
-    ############# code to communicate with COM port #############
-    ### make sure the COM port is the correct one that is connected to the Arduino
-
-# arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1) ## fibirr laptop
-# # arduino = serial.Serial(port='COM5', baudrate=115200, timeout=.1) ## my laptop
-
-# time.sleep(2) ## need to wait a bit after opening the communication
 def write_read(arduino, x, MODE):
     if MODE == "TEST":
         print(f'==== TEST MODE ====\ntwelvebit_adjusted: {x}')
@@ -34,5 +24,14 @@ def write_read(arduino, x, MODE):
     else:
         print("wrong value for MODE")
 
-# else:
-    # print("wrong value for MODE")
+
+def turnLED_ON():
+    print(f"turnLED_ON twelvebit_adjusted: {Settings.twelvebit_adjusted}")
+    write_read(Settings.arduino, Settings.twelvebit_adjusted, Constants.MODE) ## send ON signal to Arduino (percentage-adjusted)
+    print("Turned ON the LED") 
+    Settings.LEDstatus = "ON"
+        
+def turnLED_OFF():
+    write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
+    print("Turned OFF the LED")
+    Settings.LEDstatus = "OFF"

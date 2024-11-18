@@ -10,3 +10,5 @@ twelvebit_max_thisLED = None
 twelvebit_adjusted = None
 
 arduino = None
+
+LEDstatus = "OFF"

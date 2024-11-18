@@ -38,8 +38,9 @@ import tools.constants as Constants
 import tools.settings as Settings
 import tools.functions as Functions # test version
 import tools.IrrKin as IrrKin
-# from tools.functions import write_read # test version
 
+##!!! TO DO
+## [] make one function for turnLED_off and turnLED_on 
 
 ##############
 Constants.MODE = "TEST" ##!!! TURN OFF WHEN NOT TESTING
@@ -73,8 +74,6 @@ def percent_to_12bit(twelvebit_max, percent):
 ########################################################
 
 class MainWindow(QMainWindow):
-    # close_signal = pyqtSignal()
-    
     def __init__(self):
         # super().__init__()
         super(MainWindow, self).__init__()
@@ -116,7 +115,6 @@ class MainWindow(QMainWindow):
         self.pushButton_SaveContinue.clicked.connect(self.SaveContinue)
 
         #### Cancel button ####
-            ##!!! NEED TO FIX!!
         self.pushButton_Cancel.clicked.connect(self.cancel_gui)
 
 ################################################
@@ -124,9 +122,7 @@ class MainWindow(QMainWindow):
 ################################################
         
         self.initialise_Arduino(Constants.MODE)
-
-        #### Initial calculation ####
-        self.update_dropdown()
+        self.update_dropdown() # Initial calculation
         self.turnLED_OFF() # extra caution
         
     def initialise_Arduino(self, MODE):
@@ -166,6 +162,9 @@ class MainWindow(QMainWindow):
         if self.current is None:
             self.current = ''
         self.textEdit_CurrentCurrent.setText(str(self.current))
+    
+    def update_label_LEDstatus(self):
+        self.textEdit_LEDstatus.setText(Settings.LEDstatus)
         
     def update_percentage(self):
         if self.textEdit_Percentage.toPlainText() == '':
@@ -189,8 +188,6 @@ class MainWindow(QMainWindow):
         msg.setText("Are you sure you want to turn ON the LED?")
         msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         msg.buttonClicked.connect(self.turnLED_ON)
-    
-        # retval = msg.exec_() # Execute the dialog and get the return value
         msg.exec_() # Execute the dialog
     
     def turnLED_ON(self, i):
@@ -200,20 +197,32 @@ class MainWindow(QMainWindow):
                 return
         
             print("======= MainWindow =======")
-            print(f"turnLED_ON twelvebit_adjusted: {Settings.twelvebit_adjusted}")
-            Functions.write_read(Settings.arduino, Settings.twelvebit_adjusted, Constants.MODE) ## send ON signal to Arduino (percentage-adjusted)
-            print("Turned ON the LED") 
-            self.textEdit_LEDstatus.setText("ON")
+            
+            Functions.turnLED_ON()
+            # print(f"turnLED_ON twelvebit_adjusted: {Settings.twelvebit_adjusted}")
+            # Functions.write_read(Settings.arduino, Settings.twelvebit_adjusted, Constants.MODE) ## send ON signal to Arduino (percentage-adjusted)
+            # print("Turned ON the LED") 
+            # Settings.LEDstatus = "ON"
+            # self.textEdit_LEDstatus.setText(Settings.LEDstatus)
+            self.update_label_LEDstatus()
         else:
-            Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
-            print("Turned OFF the LED")
-            self.textEdit_LEDstatus.setText("OFF")
+            Functions.turnLED_OFF()
+            # Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
+            # print("Turned OFF the LED")
+            # Settings.LEDstatus = "OFF"
+            # self.textEdit_LEDstatus.setText(Settings.LEDstatus)
 
     def turnLED_OFF(self):
         print("======= MainWindow =======")
-        Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
-        print("Turned OFF the LED")
-        self.textEdit_LEDstatus.setText("OFF")
+        Functions.turnLED_OFF()
+        
+        # Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
+        # print("Turned OFF the LED")
+        # Settings.LEDstatus = "OFF"
+        # self.textEdit_LEDstatus.setText(Settings.LEDstatus)
+
+        self.update_label_LEDstatus()
+
 
 ################
 
@@ -224,54 +233,22 @@ class MainWindow(QMainWindow):
         self.window = IrrKin.IrrKin() # load Class that includes loadUi
         self.window.show()
 
-        # self.close_signal.emit()
-        # self.close()
-
-    # def cancel_gui(self):
-    #     ## Cancel
-    #     self.close()
-    #     # event.accept()
-
-##!!! FIX BUG: CRASH WHEN CLICKING CANCEL
-
     def cancel_gui(self):
         """ Cancel button """
-        # Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
-        # print("Turned OFF the LED")
         print("=== CANCEL BUTTON === Closing application...")
         
-        ## just need to close the MainWindow         
         self.close()  # Close the window
         
-        
-        # app = QApplication(sys.argv)
-        # app.quit()
-        # sys.exit(app.exec_()) # or this way?
-        # sys.exit() # or this way?
-
-
-
-
-    # def closeEvent(self, event):
-    #     ## upon clicking the X button
-    #     self.cancel_gui()
-    #     event.accept()
-
-##!!! add code to close the programme upon clicking X (like Cancel)
-
     def closeEvent(self, event):
         """ Close event: associated with X button by default"""
-        Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
-        print("Turned OFF the LED")
-        # self.close()  # Close the window
+        Functions.turnLED_OFF()
+        # Functions.write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
+        # print("Turned OFF the LED")
         print("=== X BUTTON === Closing application...")
 
 ################
 
 if __name__ == '__main__':
-    
-    # app = QApplication(sys.argv)
-    
     ## Check if there's a pre-existing QApplication instance 
     ## If there is, use it. If there isn't, create a new one.
     ## https://stackoverflow.com/questions/24041259/python-kernel-crashes-after-closing-an-pyqt4-gui-application
@@ -287,9 +264,7 @@ if __name__ == '__main__':
     gui.show()
 
     ####
-    # app.quit()
-    # app.exec_() # this way?
-    sys.exit(app.exec_()) # or this way?
+    sys.exit(app.exec_())
     ####
         
     ###################################

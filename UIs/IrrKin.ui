@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
+    <width>350</width>
     <height>400</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>450</width>
+    <width>350</width>
     <height>400</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>450</width>
+    <width>350</width>
     <height>400</height>
    </size>
   </property>
@@ -39,7 +39,7 @@
        <widget class="QLabel" name="label_0">
         <property name="maximumSize">
          <size>
-          <width>350</width>
+          <width>300</width>
           <height>25</height>
          </size>
         </property>
@@ -60,7 +60,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
+            <width>150</width>
             <height>25</height>
            </size>
           </property>
@@ -79,7 +79,7 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
+            <width>150</width>
             <height>25</height>
            </size>
           </property>
@@ -119,7 +119,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="textEdit_LEDstatus">
+         <widget class="QTextEdit" name="textEdit_LEDstatus2">
           <property name="maximumSize">
            <size>
             <width>75</width>
@@ -159,20 +159,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Cancel (return to settings) TO DO</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_Stop">
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Stop (the whole programme) TO DO</string>
+         <string>Cancel (return to settings)</string>
         </property>
        </widget>
       </item>
@@ -185,7 +172,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>450</width>
+     <width>350</width>
      <height>22</height>
     </rect>
    </property>

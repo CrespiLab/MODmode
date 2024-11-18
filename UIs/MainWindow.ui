@@ -422,12 +422,12 @@
           </property>
           <property name="maximumSize">
            <size>
-            <width>250</width>
+            <width>350</width>
             <height>25</height>
            </size>
           </property>
           <property name="text">
-           <string>Save, Close and Continue</string>
+           <string>Save and Continue with IrrKin</string>
           </property>
          </widget>
         </item>
