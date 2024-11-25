@@ -11,7 +11,7 @@ Using the Adafruit MCP4725 breakout board for digital-to-analog (DAC) conversion
 
 Operation:
 - make sure that the correct script is uploaded to the Arduino
-        (DAC_0to5V_v2.ino)
+        (ArduinoCode_DAC_0to5V.ino)
 - execute this .py script in the PowerShell
 
 GUI:
@@ -22,6 +22,10 @@ GUI:
     
 - Input a percentage using the slider
     -- this gets converted to a 12-bit string and sent to the Arduino
+
+!!! TO DO
+[] make one function for turnLED_off and turnLED_on 
+[] Add labels to IrrKin window that display elapsed time and #cycle
 
 """
 
@@ -39,11 +43,8 @@ import tools.settings as Settings
 import tools.functions as Functions # test version
 import tools.IrrKin as IrrKin
 
-##!!! TO DO
-## [] make one function for turnLED_off and turnLED_on 
-
 ##############
-Constants.MODE = "TEST" ##!!! TURN OFF WHEN NOT TESTING
+#Constants.MODE = "TEST" ##!!! TURN OFF WHEN NOT TESTING
 ##############
 
 ############## define Arduino write-read function ##############

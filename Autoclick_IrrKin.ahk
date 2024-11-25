@@ -14,16 +14,18 @@ IMPORTANT:
 SetTitleMatchMode 2 ; for ControlSend command
 CoordMode "Mouse", "Client" ; set CoordMode to active window's client area
 
-IrrKin_Cancel := "x123 y184"
 TestWindow := "x64 y44"
-IrrKin_ON := "x62 y80"
-IrrKin_OFF := "x172 y80"
+AvaSoft_Single := "x141 y128"
+
+IrrKin_Cancel := "x173 y385"
+IrrKin_ON := "x88 y43"
+IrrKin_OFF := "x261 y43"
 
 ; Change directory to that of this .ahk script which also contains the necessary .py script
 ControlSend("cd " A_ScriptDir "{Enter}",, "Windows PowerShell")
 
-Delay_1 := 1000 ; variable (ms) for delay between measurement and LED on
-Delay_2 := 1000 ; variable (ms) for delay between LED off and measurement
+Delay_1 := 400 ; variable (ms) for delay between measurement and LED on
+Delay_2 := 1300 ; variable (ms) for delay between LED off and measurement
 Delay_12 := Delay_1 + Delay_2
 
 ; Here start python script: python .\main.py
@@ -91,7 +93,9 @@ ExitApp
 
 StartTime := A_TickCount
 
-ControlClick TestWindow, "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
+;ControlClick TestWindow, "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
+
+ControlClick AvaSoft_Single, "AvaSoft 8" ; AvaSoft button
 
 ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
@@ -113,8 +117,9 @@ Loop (Numberofcycles) ;
 		
 	Sleep (Delay_2) ; need some delay between LED off and measurement
 	
-	;ControlClick "x47 y108", "AvaSoft 8" ; AvaSoft button
-	ControlClick TestWindow, "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
+	ControlClick AvaSoft_Single, "AvaSoft 8" ; AvaSoft button
+	
+	;ControlClick TestWindow, "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
 
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
