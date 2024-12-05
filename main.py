@@ -44,7 +44,7 @@ import tools.functions as Functions # test version
 import tools.IrrKin as IrrKin
 
 ##############
-#Constants.MODE = "TEST" ##!!! TURN OFF WHEN NOT TESTING
+Constants.MODE = "TEST" ##!!! TURN OFF WHEN NOT TESTING
 ##############
 
 ############## define Arduino write-read function ##############
