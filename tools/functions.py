@@ -8,7 +8,6 @@ Functions for MODmode programme
 import time
 import tools.constants as Constants
 import tools.settings as Settings
-# import tools.IrrKin as IrrKin
 
 def write_read(arduino, x, MODE):
     if MODE == "TEST":
@@ -23,7 +22,6 @@ def write_read(arduino, x, MODE):
         return data
     else:
         print("wrong value for MODE")
-
 
 def turnLED_ON():
     print(f"twelvebit_adjusted: {Settings.twelvebit_adjusted}")

@@ -15,19 +15,24 @@ IMPORTANT:
 SetTitleMatchMode 2 ; for ControlSend command
 CoordMode "Mouse", "Client" ; set CoordMode to active window's client area
 
-;;;TestWindow := "x64 y44"
-MeasurementWindow_Name := "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)"
-MeasurementWindow_Coords := "x64 y44"
+Mode := "TEST"
+;Mode := "FORREAL"
 
-;;;AvaSoft_Single := "x141 y128"
-;MeasurementWindow_Name := "AvaSoft 8"
-;MeasurementWindow_Coords := "x141 y128"
-
-/* (OLD) CODE FOR CLICKING VERSION
-IrrKin_Cancel := "x173 y385"
-IrrKin_ON := "x88 y43"
-IrrKin_OFF := "x261 y43"
-*/
+if (Mode = "TEST")
+{
+	MeasurementWindow_Name := "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)"
+	MeasurementWindow_Coords := "x64 y44"
+}
+else if (Mode = "FORREAL")
+{
+	MeasurementWindow_Name := "AvaSoft 8"
+	MeasurementWindow_Coords := "x141 y128"
+}
+else
+{
+	MsgBox("Something wrong with Mode")
+	ExitApp
+}
 
 ; Change directory to that of this .ahk script which also contains the necessary .py script
 ControlSend("cd " A_ScriptDir "{Enter}",, "Windows PowerShell")
@@ -110,14 +115,12 @@ Sleep (Delay_1) ; need some delay between measurement and LED on
 Loop (Numberofcycles) ; 
 {
 	ControlSend("on{Enter}",, "Windows PowerShell")
-	
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDon"  "`r`n")
 	
 	Sleep (Interval_ms-Delay_12) ; time that LED is ON: dependent on the user-input interval
 	
 	ControlSend("off{Enter}",, "Windows PowerShell")
-
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDoff"  "`r`n")
 		
@@ -139,4 +142,3 @@ ExitApp
 - How to add a timer that runs while the loop is running?
 - Make CurrentTime display also milliseconds
 */
-

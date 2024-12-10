@@ -7,16 +7,7 @@ Created on Mon Nov 11 10:35:07 2024
 Here: code that works with the IrrKin AutoHotKey script
 
 """
-
-# import sys
-# from PyQt5 import uic
-# from PyQt5.QtWidgets import (QMainWindow)
-# from PyQt5.QtCore import Qt, pyqtSignal
-
-# import time
-# import tools.settings as Settings
 import tools.functions as Functions
-
         
 def turnLED_ON():
     print("======= IrrKin =======")
