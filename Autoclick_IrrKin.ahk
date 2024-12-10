@@ -9,17 +9,25 @@ IMPORTANT:
 "ArduinoCode_DAC-0to5V.ino" (in the folder of the same name)
 > Make sure that Windows Powershell is running
 > Make sure that the python script "main.py" is in the same folder as your current working folder in Powershell
+=====================
 */
 
 SetTitleMatchMode 2 ; for ControlSend command
 CoordMode "Mouse", "Client" ; set CoordMode to active window's client area
 
-TestWindow := "x64 y44"
-AvaSoft_Single := "x141 y128"
+;;;TestWindow := "x64 y44"
+MeasurementWindow_Name := "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)"
+MeasurementWindow_Coords := "x64 y44"
 
+;;;AvaSoft_Single := "x141 y128"
+;MeasurementWindow_Name := "AvaSoft 8"
+;MeasurementWindow_Coords := "x141 y128"
+
+/* (OLD) CODE FOR CLICKING VERSION
 IrrKin_Cancel := "x173 y385"
 IrrKin_ON := "x88 y43"
 IrrKin_OFF := "x261 y43"
+*/
 
 ; Change directory to that of this .ahk script which also contains the necessary .py script
 ControlSend("cd " A_ScriptDir "{Enter}",, "Windows PowerShell")
@@ -28,7 +36,7 @@ Delay_1 := 400 ; variable (ms) for delay between measurement and LED on
 Delay_2 := 1300 ; variable (ms) for delay between LED off and measurement
 Delay_12 := Delay_1 + Delay_2
 
-; Here start python script: python .\main.py
+; Start python script: python .\main.py
 ControlSend("python main.py{Enter}",, "Windows PowerShell")
 
 ; MsgBox Please enter a name and location for the log file.
@@ -36,7 +44,7 @@ FileName := FileSelect("S24", , "Create a new log file", "CSV Document (*.csv)")
 if FileName = ""
 {
     MsgBox("The dialog was canceled.")
-    ControlClick IrrKin_Cancel, "IrrKin" ; IrrKin window: Cancel button
+    ControlSend("stop{Enter}",, "Windows PowerShell")
     ExitApp
 }
 else
@@ -74,7 +82,9 @@ ProcessUserInput(*)
 UserClose(*) ; close app without saving
 {
 FileObj.Close()
-ControlClick IrrKin_Cancel, "IrrKin" ; IrrKin window: Cancel button
+
+ControlSend("stop{Enter}",, "Windows PowerShell")
+
 MsgBox("Closed the programme and turned off LED (please check).")
 ExitApp
 }
@@ -83,7 +93,7 @@ ExitApp
 {
 FileObj.Close()
 Sleep (Delay_1) ; need some delay to make sure that no keys are pressed when the programme is writing "stop"
-ControlClick IrrKin_Cancel, "IrrKin" ; IrrKin window: Cancel button
+ControlSend("stop{Enter}",, "Windows PowerShell")
 MsgBox("Stopped the programme and turned off LED (please check).")
 ExitApp
 }
@@ -92,44 +102,35 @@ ExitApp
 {
 
 StartTime := A_TickCount
-
-;ControlClick TestWindow, "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
-
-ControlClick AvaSoft_Single, "AvaSoft 8" ; AvaSoft button
-
+ControlClick MeasurementWindow_Coords, MeasurementWindow_Name ; AvaSoft single-measurement button (unless in TEST mode)
 ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
 Sleep (Delay_1) ; need some delay between measurement and LED on
 
 Loop (Numberofcycles) ; 
 {
-	ControlClick IrrKin_ON, "IrrKin" ; IrrKin window: LED ON button
-		
+	ControlSend("on{Enter}",, "Windows PowerShell")
+	
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDon"  "`r`n")
 	
 	Sleep (Interval_ms-Delay_12) ; time that LED is ON: dependent on the user-input interval
 	
-	ControlClick IrrKin_OFF, "IrrKin" ; IrrKin window: LED OFF button
+	ControlSend("off{Enter}",, "Windows PowerShell")
 
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDoff"  "`r`n")
 		
 	Sleep (Delay_2) ; need some delay between LED off and measurement
 	
-	ControlClick AvaSoft_Single, "AvaSoft 8" ; AvaSoft button
-	
-	;ControlClick TestWindow, "TestWindow.txt - C:\Users\jorst136\Documents\Postdoc\GitHub\MODmode\Test - Geany (new instance)" ; TEST
-
+	ControlClick MeasurementWindow_Coords, MeasurementWindow_Name ; AvaSoft single-measurement button (unless in TEST mode)
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",Measure"  "`r`n")
 		
 	Sleep (Delay_1) ; need some delay between measurement and LED on
 }
 FileObj.Close()
-
-ControlClick IrrKin_Cancel, "IrrKin" ; IrrKin window: Cancel button
-
+ControlSend("stop{Enter}",, "Windows PowerShell")
 MsgBox("Done!")
 ExitApp
 }

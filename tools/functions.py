@@ -26,7 +26,7 @@ def write_read(arduino, x, MODE):
 
 
 def turnLED_ON():
-    print(f"turnLED_ON twelvebit_adjusted: {Settings.twelvebit_adjusted}")
+    print(f"twelvebit_adjusted: {Settings.twelvebit_adjusted}")
     write_read(Settings.arduino, Settings.twelvebit_adjusted, Constants.MODE) ## send ON signal to Arduino (percentage-adjusted)
     print("Turned ON the LED") 
     Settings.LEDstatus = "ON"

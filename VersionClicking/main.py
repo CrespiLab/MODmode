@@ -42,7 +42,7 @@ import tools.constants as Constants
 import tools.settings as Settings
 import tools.functions as Functions # test version
 import IrrKin.IrrKin as IrrKin
-# import IrrKin.IrrKin_VersionPS as IrrKin_VersionPS
+import IrrKin.IrrKin_VersionPS as IrrKin_VersionPS
 
 ##############
 Constants.MODE = "TEST" ##!!! TURN OFF WHEN NOT TESTING
@@ -76,8 +76,6 @@ def percent_to_12bit(twelvebit_max, percent):
 ########################################################
 
 class MainWindow(QMainWindow):
-    close_signal = pyqtSignal()
-    
     def __init__(self):
         # super().__init__()
         super(MainWindow, self).__init__()
@@ -219,12 +217,9 @@ class MainWindow(QMainWindow):
         """ Save, Close and Continue with IrrKin mode controlled by .ahk script """
         QMessageBox.warning(self, "Just so you know", "Saving values, closing GUI, and continuing with IrrKin")
         
-        # self.window = IrrKin.IrrKin() # load Class that includes loadUi
-        # self.window.show()
+        self.window = IrrKin.IrrKin() # load Class that includes loadUi
+        self.window.show()
         
-        self.close_signal.emit()
-        self.close()
-
     def cancel_gui(self):
         """ Cancel button """
         print("=== CANCEL BUTTON === Closing application...")
@@ -242,73 +237,19 @@ if __name__ == '__main__':
     ## Check if there's a pre-existing QApplication instance 
     ## If there is, use it. If there isn't, create a new one.
     ## https://stackoverflow.com/questions/24041259/python-kernel-crashes-after-closing-an-pyqt4-gui-application
-    # app = QApplication.instance()
-    # if app is None:
-    #     app = QApplication(sys.argv)
+    app = QApplication.instance()
+    if app is None:
+        app = QApplication(sys.argv)
     
     ### Ensure that the app is deleted when we close it
-    # app.aboutToQuit.connect(app.deleteLater)
+    app.aboutToQuit.connect(app.deleteLater)
 
-
-    app = QApplication(sys.argv)
     ####        
     gui = MainWindow()
-    # gui.show()
-
-    ####
-    # sys.exit(app.exec_())
-    ####
-    
-    def on_close():
-        # print(f"Final result: {gui.result}")
-        # Use gui.result for further processing here
-        app.quit()
-
-    gui.close_signal.connect(on_close)
     gui.show()
-    app.exec_()
-    
+
+    ####
+    sys.exit(app.exec_())
+    ####
+        
     ###################################
-    # if Constants.MODE == "TEST":
-        # print("TEST mode: Script is done.")
-    # elif Constants.MODE == "FORREAL":
-        #### Now you can use gui.twelvebit_adjusted after the GUI is closed ####
-    twelvebit_adjusted = Settings.twelvebit_adjusted
-    print(f"Script continues with IrrKin part: twelvebit_adjusted = {twelvebit_adjusted}")
-    #### Continue with the rest of the script using twelvebit_adjusted
-    ################ START ON-OFF LOOP ################
-
-    while True:
-        command = input("Enter a command (on/off/stop/help): ").lower() ## makes all characters non-capitalised
-        if command == "on":
-            print("LED is on")
-            # write_read(twelvebit_adjusted) ## send ON signal to Arduino (percentage-adjusted)
-            IrrKin.turnLED_ON()
-            ##!!! print #cycle
-
-
-        elif command == "off":
-            print("LED is off")
-            # write_read("0") ## send OFF signal to Arduino
-            IrrKin.turnLED_OFF()
-
-        elif command == "stop":
-            print("Turning off LED and stopping the program...")
-            # write_read("0") ## send OFF signal to Arduino
-            # if Constants.MODE == "TEST":
-            #     pass
-            # elif Constants.MODE == "FORREAL":
-            #     arduino.close() ## close the serial port
-            # else:
-            #     print("something wrong with code here")
-            IrrKin.StopIrrKin()
-            break ## Exit the loop to stop the program
-            
-
-        elif command == "help":
-            print("Available commands: on/off/stop/help")
-        else:
-            print("Invalid command. Type 'help' for a list of commands.")
-    # else:
-        # print("something wrong with Constants.MODE")
-    ################################################################################
