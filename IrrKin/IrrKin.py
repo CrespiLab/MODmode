@@ -8,6 +8,7 @@ Here: code that works with the IrrKin AutoHotKey script
 
 """
 import tools.functions as Functions
+# import tools.settings as Settings
         
 def turnLED_ON():
     print("======= IrrKin =======")
@@ -26,5 +27,3 @@ def closeEvent(event):
     """ Close event: associated with X button by default"""
     turnLED_OFF()
     print("=== closeEvent === Closing IrrKin window...")
-
-

@@ -12,3 +12,5 @@ twelvebit_adjusted = None
 arduino = None
 
 LEDstatus = "OFF"
+
+count = 1

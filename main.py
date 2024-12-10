@@ -255,7 +255,8 @@ if __name__ == '__main__':
         if command == "on":
             print("LED is on")
             IrrKin.turnLED_ON()
-            ##!!! print #cycle
+            print(f"Cycle: {Settings.count}")
+            Settings.count+=1
 
         elif command == "off":
             print("LED is off")

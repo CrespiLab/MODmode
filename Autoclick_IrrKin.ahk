@@ -15,8 +15,8 @@ IMPORTANT:
 SetTitleMatchMode 2 ; for ControlSend command
 CoordMode "Mouse", "Client" ; set CoordMode to active window's client area
 
-Mode := "TEST"
-;Mode := "FORREAL"
+;Mode := "TEST"
+Mode := "FORREAL"
 
 if (Mode = "TEST")
 {
