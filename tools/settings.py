@@ -9,6 +9,8 @@ Settings defined during operation of MODmode programme
 twelvebit_max_thisLED = None
 twelvebit_adjusted = None
 
+clickedSC = None
+
 arduino = None
 
 LEDstatus = "OFF"

@@ -25,7 +25,6 @@ GUI:
 
 !!! TO DO
 [] make one function for turnLED_off and turnLED_on 
-[] Add labels to IrrKin window that display elapsed time and #cycle
 
 """
 
@@ -43,13 +42,12 @@ import tools.functions as Functions # test version
 import IrrKin.IrrKin as IrrKin
 
 ##############
-Constants.MODE = "TEST" ##!!! TURN OFF WHEN NOT TESTING
+# Constants.MODE = "TEST" ##!!! TURN OFF WHEN NOT TESTING
 ##############
 
 ############## define Arduino write-read function ##############
 
 MaxCurrents = Constants.MaxCurrents
-##!!! CHECK CURRENTS
 
 twelvebit_zero = Constants.twelvebit_zero
 twelvebit_max_default = Constants.twelvebit_max_default
@@ -84,6 +82,8 @@ class MainWindow(QMainWindow):
         #### Initialize instance variables ####
         self.selected_option = None
         self.percentage = 0 # start with 0%
+
+        Settings.clickedSC = None
 
         Settings.twelvebit_max_thisLED = None
         Settings.twelvebit_adjusted = None
@@ -215,21 +215,28 @@ class MainWindow(QMainWindow):
 
     def SaveContinue(self):
         """ Save, Close and Continue with IrrKin mode controlled by .ahk script """
-        QMessageBox.warning(self, "Just so you know", "Saving values, closing GUI, and continuing with IrrKin")
         
-        self.close_signal.emit()
-        self.close()
+        if Settings.twelvebit_adjusted is None:
+            QMessageBox.warning(self, "Error", "Don't forget to choose LED and percentage")
+            return
+        else: 
+            QMessageBox.warning(self, "Just so you know", "Saving values, closing GUI, and continuing with IrrKin")
+            Settings.clickedSC = "YES"
+            self.close_signal.emit()
+            self.close() # Call close event
 
     def cancel_gui(self):
         """ Cancel button """
         print("=== CANCEL BUTTON === Closing application...")
-        
-        self.close()  # Close the window
+        print(f"Settings.clickedSC: {Settings.clickedSC}")
+        Functions.SetToZero_twelvebitadjusted()
+        self.close()  # Call close event
         
     def closeEvent(self, event):
         """ Close event: associated with X button by default"""
+        print(f"Settings.clickedSC: {Settings.clickedSC}")
         Functions.turnLED_OFF()
-        print("=== X BUTTON === Closing application...")
+        print("=== Closing application... ===")
 
 ################
 
@@ -245,31 +252,31 @@ if __name__ == '__main__':
     app.exec_()
     
     ###################################
-    twelvebit_adjusted = Settings.twelvebit_adjusted
-    print(f"Script continues with IrrKin part: twelvebit_adjusted = {twelvebit_adjusted}")
-    #### Continue with the rest of the script using twelvebit_adjusted
-    ################ START ON-OFF LOOP ################
-
-    while True:
-        command = input("Enter a command (on/off/stop/help): ").lower() ## makes all characters non-capitalised
-        if command == "on":
-            print("LED is on")
-            IrrKin.turnLED_ON()
-            print(f"Cycle: {Settings.count}")
-            Settings.count+=1
-
-        elif command == "off":
-            print("LED is off")
-            IrrKin.turnLED_OFF()
-
-        elif command == "stop":
-            print("Turning off LED and stopping the program...")
-            IrrKin.StopIrrKin()
-            break ## Exit the loop to stop the program
-            
-
-        elif command == "help":
-            print("Available commands: on/off/stop/help")
-        else:
-            print("Invalid command. Type 'help' for a list of commands.")
+    if Settings.clickedSC is not None:
+        twelvebit_adjusted = Settings.twelvebit_adjusted
+        print(f"Script continues with IrrKin part: twelvebit_adjusted = {twelvebit_adjusted}")
+        #### Continue with the rest of the script using twelvebit_adjusted
+        ################ START ON-OFF LOOP ################
+        while True:
+            command = input("Enter a command (on/off/stop/help): ").lower() ## makes all characters non-capitalised
+            if command == "on":
+                print("LED is on")
+                IrrKin.turnLED_ON()
+                print(f"Cycle: {Settings.count}")
+                Settings.count+=1
+    
+            elif command == "off":
+                print("LED is off")
+                IrrKin.turnLED_OFF()
+    
+            elif command == "stop":
+                print("Turning off LED and stopping the program...")
+                IrrKin.StopIrrKin()
+                break ## Exit the loop to stop the program
+                
+    
+            elif command == "help":
+                print("Available commands: on/off/stop/help")
+            else:
+                print("Invalid command. Type 'help' for a list of commands.")
     ################################################################################

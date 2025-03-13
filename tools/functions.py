@@ -33,3 +33,8 @@ def turnLED_OFF():
     write_read(Settings.arduino, "0", Constants.MODE) ## send OFF signal to Arduino
     print("Turned OFF the LED")
     Settings.LEDstatus = "OFF"
+
+def SetToZero_twelvebitadjusted():
+    Settings.twelvebit_adjusted = None
+    print(f"=== Set twelvebit_adjusted to: {Settings.twelvebit_adjusted} ===")
+
