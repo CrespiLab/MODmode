@@ -35,21 +35,21 @@ else
 }
 
 ; Change directory to that of this .ahk script which also contains the necessary .py script
-ControlSend("cd " A_ScriptDir "{Enter}",, "Windows PowerShell")
+ControlSend("cd " A_ScriptDir "{Enter}","Windows.UI.Input.InputSite.WindowClass1", "Windows PowerShell")
 
 Delay_1 := 400 ; variable (ms) for delay between measurement and LED on
 Delay_2 := 1300 ; variable (ms) for delay between LED off and measurement
 Delay_12 := Delay_1 + Delay_2
 
 ; Start python script: python .\main.py
-ControlSend("python main.py{Enter}",, "Windows PowerShell")
+ControlSend("python main.py{Enter}","Windows.UI.Input.InputSite.WindowClass1", "Windows PowerShell")
 
 ; MsgBox Please enter a name and location for the log file.
 FileName := FileSelect("S24", , "Create a new log file", "CSV Document (*.csv)")
 if FileName = ""
 {
     MsgBox("The dialog was canceled.")
-    ControlSend("stop{Enter}",, "Windows PowerShell")
+    ControlSend("stop{Enter}","Windows.UI.Input.InputSite.WindowClass1", "Windows PowerShell")
     ExitApp
 }
 else
@@ -88,7 +88,7 @@ UserClose(*) ; close app without saving
 {
 FileObj.Close()
 
-ControlSend("stop{Enter}",, "Windows PowerShell")
+ControlSend("stop{Enter}","Windows.UI.Input.InputSite.WindowClass1", "Windows PowerShell")
 
 MsgBox("Closed the programme and turned off LED (please check).")
 ExitApp
@@ -98,7 +98,7 @@ ExitApp
 {
 FileObj.Close()
 Sleep (Delay_1) ; need some delay to make sure that no keys are pressed when the programme is writing "stop"
-ControlSend("stop{Enter}",, "Windows PowerShell")
+ControlSend("stop{Enter}","Windows.UI.Input.InputSite.WindowClass1", "Windows PowerShell")
 MsgBox("Stopped the programme and turned off LED (please check).")
 ExitApp
 }
@@ -114,13 +114,13 @@ Sleep (Delay_1) ; need some delay between measurement and LED on
 
 Loop (Numberofcycles) ; 
 {
-	ControlSend("on{Enter}",, "Windows PowerShell")
+	ControlSend("on{Enter}","Windows.UI.Input.InputSite.WindowClass1", "Windows PowerShell")
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDon"  "`r`n")
 	
 	Sleep (Interval_ms-Delay_12) ; time that LED is ON: dependent on the user-input interval
 	
-	ControlSend("off{Enter}",, "Windows PowerShell")
+	ControlSend("off{Enter}","Windows.UI.Input.InputSite.WindowClass1", "Windows PowerShell")
 	ElapsedTime := (A_TickCount - StartTime)/1000 ; Time stamp in seconds
 	FileObj.Write(A_index  "," A_Now "," ElapsedTime ",LEDoff"  "`r`n")
 		
@@ -133,7 +133,7 @@ Loop (Numberofcycles) ;
 	Sleep (Delay_1) ; need some delay between measurement and LED on
 }
 FileObj.Close()
-ControlSend("stop{Enter}",, "Windows PowerShell")
+ControlSend("stop{Enter}","Windows.UI.Input.InputSite.WindowClass1", "Windows PowerShell")
 MsgBox("Done!")
 ExitApp
 }
